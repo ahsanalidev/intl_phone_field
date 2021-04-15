@@ -260,18 +260,18 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              color: widget.isLightTheme ? Colors.white : Colors.transparent,
-              boxShadow: widget.isLightTheme
-                  ? [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ]
-                  : [],
-            ),
+                color: widget.isLightTheme ? Colors.white : Colors.transparent,
+                boxShadow: widget.isLightTheme
+                    ? [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ]
+                    : [],
+                borderRadius: BorderRadius.circular(12)),
             child: TextFormField(
               initialValue: widget.initialValue,
               readOnly: widget.readOnly,
