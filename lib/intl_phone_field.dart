@@ -10,6 +10,7 @@ class IntlPhoneField extends StatefulWidget {
   final bool obscureText;
   final TextAlign textAlign;
   final VoidCallback onTap;
+  final bool isLightTheme;
 
   /// {@macro flutter.widgets.editableText.readOnly}
   final bool readOnly;
@@ -137,7 +138,8 @@ class IntlPhoneField extends StatefulWidget {
   final Color dropDownArrowColor;
 
   IntlPhoneField(
-      {this.initialCountryCode,
+      {this.isLightTheme = false,
+      this.initialCountryCode,
       this.obscureText = false,
       this.textAlign = TextAlign.left,
       this.onTap,
@@ -189,7 +191,7 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
     await showDialog(
       context: context,
       useRootNavigator: false,
-      child: StatefulBuilder(
+      builder: (context) => StatefulBuilder(
         builder: (ctx, setState) => Dialog(
           child: Container(
             padding: EdgeInsets.all(10),
@@ -256,46 +258,61 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
         _buildFlagsButton(),
         SizedBox(width: 8),
         Expanded(
-          child: TextFormField(
-            initialValue: widget.initialValue,
-            readOnly: widget.readOnly,
-            obscureText: widget.obscureText,
-            textAlign: widget.textAlign,
-            onTap: () {
-              if (widget.onTap != null) widget.onTap();
-            },
-            controller: widget.controller,
-            focusNode: widget.focusNode,
-            onFieldSubmitted: (s) {
-              if (widget.onSubmitted != null) widget.onSubmitted(s);
-            },
-            decoration: widget.decoration,
-            style: widget.style,
-            onSaved: (value) {
-              if (widget.onSaved != null)
-                widget.onSaved(
-                  PhoneNumber(
-                    countryISOCode: _selectedCountry['code'],
-                    countryCode: _selectedCountry['dial_code'],
-                    number: value,
-                  ),
-                );
-            },
-            onChanged: (value) {
-              if (widget.onChanged != null)
-                widget.onChanged(
-                  PhoneNumber(
-                    countryISOCode: _selectedCountry['code'],
-                    countryCode: _selectedCountry['dial_code'],
-                    number: value,
-                  ),
-                );
-            },
-            validator: validator,
-            keyboardType: widget.keyboardType,
-            inputFormatters: widget.inputFormatters,
-            enabled: widget.enabled,
-            keyboardAppearance: widget.keyboardAppearance,
+          child: Container(
+            decoration: BoxDecoration(
+              color: widget.isLightTheme ? Colors.white : Colors.transparent,
+              boxShadow: widget.isLightTheme
+                  ? [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ]
+                  : [],
+            ),
+            child: TextFormField(
+              initialValue: widget.initialValue,
+              readOnly: widget.readOnly,
+              obscureText: widget.obscureText,
+              textAlign: widget.textAlign,
+              onTap: () {
+                if (widget.onTap != null) widget.onTap();
+              },
+              controller: widget.controller,
+              focusNode: widget.focusNode,
+              onFieldSubmitted: (s) {
+                if (widget.onSubmitted != null) widget.onSubmitted(s);
+              },
+              decoration: widget.decoration,
+              style: widget.style,
+              onSaved: (value) {
+                if (widget.onSaved != null)
+                  widget.onSaved(
+                    PhoneNumber(
+                      countryISOCode: _selectedCountry['code'],
+                      countryCode: _selectedCountry['dial_code'],
+                      number: value,
+                    ),
+                  );
+              },
+              onChanged: (value) {
+                if (widget.onChanged != null)
+                  widget.onChanged(
+                    PhoneNumber(
+                      countryISOCode: _selectedCountry['code'],
+                      countryCode: _selectedCountry['dial_code'],
+                      number: value,
+                    ),
+                  );
+              },
+              validator: validator,
+              keyboardType: widget.keyboardType,
+              inputFormatters: widget.inputFormatters,
+              enabled: widget.enabled,
+              keyboardAppearance: widget.keyboardAppearance,
+            ),
           ),
         ),
       ],
